@@ -1,0 +1,45 @@
+SELECT COUNT(*) FROM test
+
+SELECT notation.score, student.name, student.firstname FROM notation 
+JOIN student ON notation.numstud = student.numstud
+
+SELECT notation.score, student.name, student.firstname, matter.wording FROM notation 
+JOIN student ON notation.numstud = student.numstud 
+JOIN test ON notation.numtest = test.numtest 
+JOIN matter ON test.codemat = matter.codemat;
+
+SELECT score FROM notation WHERE score > 10
+
+SELECT student.name, student.firstname FROM notation 
+JOIN student ON notation.numstud = student.numstud
+WHERE score >= 20
+
+SELECT AVG(notation.score), student.name, student.firstname FROM notation 
+JOIN student ON notation.numstud = student.numstud 
+GROUP by student.name
+
+SELECT * FROM test WHERE testdate BETWEEN '2014-01-01' AND '2014-06-30'
+
+SELECT test.numtest, test.testdate, test.place , matter.* FROM test  
+JOIN matter ON test.codemat = matter.codemat
+
+SELECT AVG(notation.score), student.name, student.firstname FROM notation 
+JOIN student ON notation.numstud = student.numstud 
+GROUP by student.name
+ORDER BY AVG(notation.score) DESC
+
+SELECT AVG(notation.score), matter.wording, COUNT(test.codemat) FROM notation 
+JOIN student ON notation.numstud = student.numstud 
+JOIN test ON notation.numtest = test.numtest 
+JOIN matter ON test.codemat = matter.codemat
+WHERE matter.codemat IN (
+    SELECT test.codemat
+    FROM Test
+    GROUP BY test.codemat
+    HAVING COUNT(test.numtest) > 1
+)
+GROUP BY matter.wording
+
+SELECT AVG(score), numtest FROM notation
+GROUP BY numtest
+HAVING COUNT(numtest) < 6

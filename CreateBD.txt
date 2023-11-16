@@ -1,0 +1,35 @@
+CREATE DATABASE school;
+
+USE school;
+
+CREATE TABLE Student(
+	numstud int PRIMARY KEY,
+    name varchar(255),
+    firstname varchar(255),
+    dateofbirth date,
+    street varchar(255),
+    postalcod varchar(255),
+	city varchar(255)
+);
+
+CREATE TABLE Test(
+    numtest  int PRIMARY KEY,
+    testdate  date,
+    place varchar(255) ,
+    codemat varchar(255) FOREIGN KEY REFERENCES Matter(codemat)
+);
+
+CREATE TABLE Notation(
+    score float,
+    numstud int,
+    numtest int,
+    PRIMARY KEY (numstud,numtest),
+    FOREIGN KEY (numstud) REFERENCES Student(numstud),
+    FOREIGN KEY (numtest) REFERENCES Test(numtest)
+);
+
+CREATE TABLE Matter(
+	codemat varchar(255) NOT NULL PRIMARY KEY,
+    wording varchar(255),
+    coef float
+);
